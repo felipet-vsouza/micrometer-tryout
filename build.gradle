@@ -1,6 +1,8 @@
 plugins {
     id 'java'
-    id "io.freefair.lombok" version "5.3.0"
+    id 'org.springframework.boot' version '2.3.5.RELEASE'
+    id 'io.freefair.lombok' version '5.3.0'
+    id 'com.palantir.docker' version '0.25.0'
 }
 
 group 'felipetvsouza.github.micrometertryout'
@@ -17,4 +19,12 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-webflux:2.3.5.RELEASE')
     implementation('org.springframework.boot:spring-boot-starter-actuator:2.3.5.RELEASE')
     implementation('io.micrometer:micrometer-registry-prometheus:1.6.1')
+}
+
+docker {
+    dependsOn(tasks.build)
+    name = "github/felipet-vsouza/micrometer-tryout"
+    def _jarName = "${project.name}-${project.version}.jar"
+    files "${project.buildDir.absolutePath}/libs/${_jarName}"
+    buildArgs([JAR_FILE: _jarName])
 }
