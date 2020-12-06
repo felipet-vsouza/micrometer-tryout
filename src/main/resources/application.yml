@@ -1,0 +1,5 @@
+logging:
+  level:
+    felipetvsouza.github.micrometertryout: DEBUG
+    reactor: WARN
+    org.springframework: WARN
