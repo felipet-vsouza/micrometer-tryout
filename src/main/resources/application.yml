@@ -3,3 +3,9 @@ logging:
     felipetvsouza.github.micrometertryout: DEBUG
     reactor: WARN
     org.springframework: WARN
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,health,info,metric

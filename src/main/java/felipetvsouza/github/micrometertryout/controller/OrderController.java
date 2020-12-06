@@ -2,27 +2,25 @@ package felipetvsouza.github.micrometertryout.controller;
 
 import felipetvsouza.github.micrometertryout.request.CloseOrderRequest;
 import felipetvsouza.github.micrometertryout.response.BaseResponse;
+import felipetvsouza.github.micrometertryout.service.OrderService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
+import reactor.core.publisher.Mono;
 
 @RequestMapping("/order")
 @RestController
+@RequiredArgsConstructor
 @Slf4j
 public class OrderController {
 
-    private static BigDecimal totalSold = BigDecimal.ZERO;
+    private final OrderService orderService;
 
     @PostMapping("/close")
     @ResponseStatus(HttpStatus.CREATED)
-    public BaseResponse<String> closeOrder(@RequestBody CloseOrderRequest request) {
-        log.info("Closing order with id {}", request.getOrderId());
-        totalSold = totalSold.add(request.getTotalValue());
-
-        var totalSoldString = String.format("Total sold: %s", totalSold.toPlainString());
-        return BaseResponse.build(totalSoldString);
+    public Mono<BaseResponse<String>> closeOrder(@RequestBody CloseOrderRequest request) {
+        return orderService.closeOrder(request);
     }
 
 }
