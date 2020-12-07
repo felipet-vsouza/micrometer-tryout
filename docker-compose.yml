@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  application:
+    image: github/felipet-vsouza/micrometer-tryout
+    container_name: micrometer-tryout
+    networks:
+      - new
+    ports:
+      - 8080:8080
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - application
+      - prometheus
+    networks:
+      - new
+    ports:
+      - 3000:3000
+  prometheus:
+    build: prometheus
+    container_name: prometheus
+    depends_on:
+      - application
+    networks:
+      - new
+    ports:
+      - 9090:9090
+
+networks:
+  new:
