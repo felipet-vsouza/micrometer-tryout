@@ -10,6 +10,8 @@ services:
       - 8080:8080
   grafana:
     image: grafana/grafana
+    volumes:
+      - ./grafana:/var/lib/grafana
     depends_on:
       - application
       - prometheus
